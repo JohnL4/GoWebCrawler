@@ -61,9 +61,9 @@ type SyncMap[T comparable, U any] struct {
 }
 
 func (sm *SyncMap[T, U]) Put(key T, val U) {
-	sm._mutex.Lock()
-	defer sm._mutex.Unlock()
-	sm._map[key] = val
+	sm._mutex.Lock()         // acquire lock
+	defer sm._mutex.Unlock() // release lock at end, guaranteed
+	sm._map[key] = val       // store value
 }
 
 func (sm *SyncMap[T, U]) Get(key T) (U, error) {
